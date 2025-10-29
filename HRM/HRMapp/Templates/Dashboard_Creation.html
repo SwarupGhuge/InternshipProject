@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Management</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        /* Table Container */
+        .table-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        /* Alternating Row Colors */
+        tr:nth-child(even) {
+            background-color: #f8f9ff;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd !important;
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-edit {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #d63031;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(245, 87, 108, 0.3);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(214, 48, 49, 0.3);
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            .page-title { font-size: 1.8rem; }
+            table { font-size: 0.9rem; }
+            th, td { padding: 12px 10px; }
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                display: block;
+                margin: 5px 0;
+                text-align: center;
+            }
+            td:last-child {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 20px 10px; }
+            .table-container { border-radius: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">Department Management</h1>
+
+    <div class="table-container">
+        <!-- YOUR ORIGINAL TABLE (UNCHANGED) -->
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Department_name</th>
+                <th>Department_description</th>
+                <th>Action</th>
+            </tr>
+            {% for i in range %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.Department_name}}</td>
+                <td>{{i.Department_description}}</td>
+                <td>
+                    <a href="{% url 'formsedit' i.id %}" class="action-btn btn-edit">Edit</a>
+                    <a href="{% url 'formsdelete' i.id %}" class="action-btn btn-delete">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

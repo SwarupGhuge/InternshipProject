@@ -1,0 +1,83 @@
+create database HRM;
+use HRM;
+
+
+CREATE TABLE Department (department_id INT PRIMARY KEY AUTO_INCREMENT,department_name VARCHAR(30) NOT NULL,
+location VARCHAR(30));
+
+INSERT INTO Department (department_name, location) VALUES('Human Resources', 'Mumbai'),('IT', 'Bangalore'),
+('Finance', 'Delhi');
+
+select * from Department;
+
+#################################### Role #########################################
+
+CREATE TABLE Role (role_id INT PRIMARY KEY AUTO_INCREMENT,
+role_name VARCHAR(50) NOT NULL CHECK (role_name IN ('Admin', 'Manager', 'Team-Leader', 'Employee')),
+description TEXT);
+
+INSERT INTO Role (role_name, description) VALUES('Admin', 'System administrator with full access'),
+('Manager', 'Manages team and projects'),('Team-Leader', 'Leads a small team'),
+('Employee', 'Regular staff member');
+
+select * from Role;
+
+############################ User #################################
+
+CREATE TABLE User (user_id INT PRIMARY KEY AUTO_INCREMENT,first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50),
+email VARCHAR(100) UNIQUE NOT NULL, department_id INT, role_id INT, hire_date DATE, FOREIGN KEY (department_id) REFERENCES Department(department_id),
+ FOREIGN KEY (role_id) REFERENCES Role(role_id));
+ 
+INSERT INTO User (first_name, last_name, email, department_id, role_id, hire_date) VALUES('Amit', 'Sharma', 'amit.sharma@xai.com', 1, 1, '2023-06-15'),
+('Priya', 'Verma', 'priya.verma@xai.com', 2, 2, '2022-09-10'),('Rahul', 'Kumar', 'rahul.kumar@xai.com', 2, 3, '2023-01-20'),
+('Sneha', 'Patil', 'sneha.patil@xai.com', 3, 4, '2024-03-05');
+
+select * from User;
+
+####################################### Performance ##############################################
+
+CREATE TABLE Performance (performance_id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, review_date DATE, feedback TEXT, goals TEXT,
+accomplishments TEXT, rating DECIMAL(3,1) CHECK (rating >= 0 AND rating <= 5), FOREIGN KEY (user_id) REFERENCES User(user_id));
+
+INSERT INTO Performance (user_id, review_date, feedback, goals, accomplishments, rating) VALUES
+(1, '2025-09-01', 'Excellent leadership skills', 'Improve team efficiency by 10%', 'Implemented new HR system', 4.5),
+(2, '2025-08-15', 'Good project management', 'Complete project by Q4', 'Delivered 2 projects', 4.0),
+(3, '2025-09-01', 'Consistent performance', 'Enhance coding skills', 'Resolved 50 tickets', 3.8),
+(4, '2025-08-20', 'Needs improvement in communication', 'Attend training', 'Completed monthly reports', 3.0);
+
+select * from Performance;
+
+########################################### Task #################################################
+
+CREATE TABLE Task (task_id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, task_name VARCHAR(100) NOT NULL, description TEXT, due_date DATE,
+status VARCHAR(20) CHECK (status IN ('Pending', 'In Progress', 'Completed')),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES User(user_id));
+
+INSERT INTO Task (user_id, task_name, description, due_date, status) VALUES(1, 'System Audit', 'Review security protocols', '2025-10-01', 'Pending'),
+(2, 'Project Planning', 'Create Q4 roadmap', '2025-09-30', 'In Progress'),(3, 'Bug Fix', 'Resolve login issues', '2025-09-28', 'Completed'),
+(4, 'Data Entry', 'Update financial records', '2025-09-27', 'Pending');
+
+select * from Task;
+
+########################################### Leave ###############################################
+
+CREATE TABLE Leaves (leave_id INT PRIMARY KEY AUTO_INCREMENT, user_id INT, start_date DATE NOT NULL, end_date DATE NOT NULL,
+leave_type VARCHAR(50) NOT NULL, status VARCHAR(20) CHECK (status IN ('Pending', 'Approved', 'Rejected')), balance DECIMAL(5,1),
+FOREIGN KEY (user_id) REFERENCES User(user_id)); 
+
+INSERT INTO Leaves (user_id, start_date, end_date, leave_type, status, balance) VALUES(1, '2025-10-05', '2025-10-07', 'Sick Leave', 'Pending', 15.0),
+(2, '2025-10-10', '2025-10-11', 'Casual Leave', 'Approved', 12.5),(3, '2025-10-15', '2025-10-16', 'Vacation', 'Pending', 10.0),
+(4, '2025-10-20', '2025-10-21', 'Sick Leave', 'Rejected', 8.5);
+
+select * from Leaves;
+ 
+ 
+
+
+
+
+
+
+
+
+

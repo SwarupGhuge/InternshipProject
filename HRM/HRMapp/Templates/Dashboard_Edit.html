@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Department</title>
+
+    <style>
+        /* Google Font (Optional - Remove if you don't want external) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e8efb 0%, #a777e6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* Animated Background Orbs */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        .orb1 { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
+        .orb2 { width: 400px; height: 400px; bottom: -150px; right: -150px; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Glassmorphism Form Card */
+        form {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+            animation: slideUp 0.8s ease-out;
+            overflow: hidden;
+        }
+
+        form::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1);
+            border-radius: 20px 20px 0 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title */
+        .form-title {
+            text-align: center;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        /* Labels */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f0f0f0;
+            font-weight: 500;
+            font-size: 1rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input Fields - Glowing Effect */
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 
+                0 0 15px rgba(255, 255, 255, 0.4),
+                inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* Input Group */
+        p {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        /* Submit Button - Gradient + Pulse */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.6s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            form { padding: 30px 25px; }
+            .form-title { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Orbs -->
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+
+    <!-- YOUR ORIGINAL FORM (UNCHANGED) + STYLING -->
+    <form action="{% url 'formsupdate' range.id %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-title">Update Department</div>
+
+        <p>
+            <label for="id_Department_name">Department name:</label>
+            <input type="text" name="Department_name" maxlength="20" required="" id="id_Department_name" value="{{range.Department_name}}" placeholder="Enter department name">
+        </p>
+
+        <p>
+            <label for="id_Department_description">Department description:</label>
+            <input type="text" name="Department_description" maxlength="20" required="" id="id_Department_description" value="{{range.Department_description}}" placeholder="Enter description">
+        </p>
+
+        <button type="submit" class="btn">Update Now</button>
+    </form>
+
+</body>
+</html>
